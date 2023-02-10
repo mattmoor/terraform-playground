@@ -2,8 +2,9 @@
 resource "chainguard_group" "user-group" {
   name        = "example user group"
   description = <<EOF
-    This group simulates an end-user group, which folks can
-    assume the support identity to inspect.
+    This group simulates an end-user group, which the github
+    actions identity can iteract with via the identity in
+    actions.tf.
   EOF
 }
 

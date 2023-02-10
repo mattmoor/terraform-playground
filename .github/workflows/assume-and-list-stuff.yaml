@@ -20,5 +20,4 @@ jobs:
         identity: c2f3f937aa9e0a25b59adfde7b131d9925550f6c/6a5dcdc4cd3ca0fd
 
     # Explore what we can see!
-    - run: |
-        chainctl iam groups ls
+    - run: chainctl iam groups ls
