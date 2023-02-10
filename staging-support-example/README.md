@@ -3,6 +3,11 @@
 This example holds a proof of concept for how we can use Chainguard's "assumed"
 identities to facilitate customer support by assuming a "support" identity.
 
+- `sample.tf`: A sample group with a policy resource to demonstrate we can view things.
+- `support.tf`: An identity that would be assumed by a support engineer with read access to the group.
+
+
+## In action
 
 Assume the support identity:
 
