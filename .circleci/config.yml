@@ -1,0 +1,29 @@
+version: 2.1
+
+jobs:
+  assume-and-list:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: "Download and Auth Chainctl"
+          command: |
+            cd $(mktemp -d)
+            wget -O chainctl "https://dl.enforce.dev/chainctl/latest/chainctl_linux_$(uname -m)"
+            chmod +x chainctl
+            sudo mv chainctl /usr/local/bin
+
+            chainctl auth login --identity 2c8bceb43e0d5542edabccda0a5e77667a4d6cb6/959075557dc5698f --identity-token $CIRCLE_OIDC_TOKEN
+
+      - run:
+          name: "Explore stuff with chainctl"
+          command: |
+            chainctl policy ls
+
+
+workflows:
+  assume-and-list:
+    jobs:
+      - assume-and-list:
+          context:
+          - enforce-circleci-example
