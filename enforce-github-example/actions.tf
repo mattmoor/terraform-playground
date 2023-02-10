@@ -1,7 +1,7 @@
 # Create the identity for our Github Actions to assume.
 resource "chainguard_identity" "actions" {
   parent_id   = chainguard_group.user-group.id
-  name        = "chainguard support"
+  name        = "github actions"
   description = <<EOF
     This is an identity that authorizes the actions in this
     repository to assume to interact with chainctl.
