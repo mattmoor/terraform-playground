@@ -1,0 +1,22 @@
+# Gitlab requires a shell otherwise we could probably use:
+#   us.gcr.io/prod-enforce-fabc/chainctl:vX.Y.Z
+image: cgr.dev/chainguard/wolfi-base
+
+stages:
+  - assume-and-explore
+
+assume-and-explore:
+  stage: assume-and-explore
+  script:
+  - |
+    wget -O chainctl "https://dl.enforce.dev/chainctl/latest/chainctl_linux_$(uname -m)"
+    chmod +x chainctl
+    mv chainctl /usr/bin
+
+    # Assume
+    chainctl auth login \
+      --identity-token $CI_JOB_JWT_V2 \
+      --identity dd55a387a3911e68d8786cead6167e6b2a4d85f0/2a450867e9a652a9
+
+    # Explore
+    chainctl policy ls
