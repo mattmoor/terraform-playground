@@ -1,0 +1,22 @@
+steps:
+
+# Google Cloud Build doesn't support builders that run as non-root
+# particularly well, so before doing anything else allow all users
+# to write to the home directory so that we can log in.
+- name: cgr.dev/chainguard/wolfi-base
+  entrypoint: "chmod"
+  args: ["-R", "a+rw", "/builder/home"]
+
+# Assume the identity using the appropriate google service account.
+- name: us.gcr.io/prod-enforce-fabc/chainctl:v0.1.71
+  env:
+  - GOOGLE_SERVICE_ACCOUNT_NAME=enforce-cloudbuild-example@${PROJECT_ID}.iam.gserviceaccount.com
+  args: ["auth", "login", "--identity", "${_IDENTITY}"]
+
+# Do stuff now that we are authenticated!
+- name: us.gcr.io/prod-enforce-fabc/chainctl:v0.1.71
+  args: ["policy", "ls"]
+
+substitutions:
+  # This is the identity from cloudbuild.tf
+  _IDENTITY: ""

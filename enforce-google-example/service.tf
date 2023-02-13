@@ -1,7 +1,7 @@
 resource "ko_image" "example" {
   repo       = "gcr.io/${local.project}/staging-google-example"
   // TODO(mattmoor): We should publish a latest tag.
-  base_image = "us.gcr.io/prod-enforce-fabc/chainctl:v0.1.70"
+  base_image = "us.gcr.io/prod-enforce-fabc/chainctl:v0.1.71"
   importpath = "github.com/mattmoor/terraform-playground/staging-google-example"
 }
 
