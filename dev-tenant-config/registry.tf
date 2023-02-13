@@ -47,6 +47,18 @@ resource "chainguard_rolebinding" "pull-stuff" {
 
 
 
+# Create a second private group, to test cross-repository mounting.
+resource "chainguard_group" "private" {
+  name        = "private images"
+  description = "This group holds private images for registry.${local.environment}"
+}
+
+# Emit the group's ID so that we know where to push.
+output "private-registry-group" {
+  value = chainguard_group.private.id
+}
+
+
 
 # Look up the id for the registry.push role within this environment.
 data "chainguard_roles" "registry-push" {
@@ -75,9 +87,16 @@ output "push-identity" {
   value = chainguard_identity.actions-publisher.id
 }
 
-# Grant the identity the "registry.pus" role on our root group.
-resource "chainguard_rolebinding" "push-stuff" {
+# Grant the identity the "registry.push" role on our public group.
+resource "chainguard_rolebinding" "push-public-stuff" {
   identity = chainguard_identity.actions-publisher.id
   group    = chainguard_group.registry.id
+  role     = data.chainguard_roles.registry-push.items[0].id
+}
+
+# Grant the identity the "registry.push" role on our private group.
+resource "chainguard_rolebinding" "push-private-stuff" {
+  identity = chainguard_identity.actions-publisher.id
+  group    = chainguard_group.private.id
   role     = data.chainguard_roles.registry-push.items[0].id
 }
