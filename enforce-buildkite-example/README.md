@@ -6,6 +6,9 @@ a Buildkite pipeline to interact with Chainguard resources via terraform.
 - `sample.tf`: A sample group with a policy resource to demonstrate we can view things.
 - `buildkite.tf`: An identity that Buildkite can assume to interact with the sample group.
 
+For more information on Buildkite OIDC see [the docs](https://buildkite.com/docs/agent/v3/cli-oidc)!
+
+
 ## Letting your Chainguard build fly
 
 To install `chainctl` and assume the identity, just add the following step to
