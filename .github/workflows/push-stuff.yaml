@@ -1,0 +1,26 @@
+name: Assume and Explore
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  assume-and-explore:
+    name: actions assume example
+
+    # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
+    permissions:
+      id-token: write
+
+    runs-on: ubuntu-latest
+    steps:
+
+    # Assume the identity.
+    - uses: chainguard-dev/actions/setup-chainctl@main
+      with:
+        identity: 79c16302fa2fb9572c80d7de9b2fd3893971e929/92a3be9fa52923dc
+
+    - uses: sigstore/cosign-installer@main
+    - run: |
+        cosign copy -f \
+           cgr.dev/chainguard/static:latest-glibc \
+           registry.enforce.dev/79c16302fa2fb9572c80d7de9b2fd3893971e929/static
