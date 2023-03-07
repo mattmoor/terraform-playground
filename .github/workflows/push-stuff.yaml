@@ -1,4 +1,4 @@
-name: Assume and Explore
+name: Push Images
 
 on:
   workflow_dispatch: {}
