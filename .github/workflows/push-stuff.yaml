@@ -4,8 +4,8 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  assume-and-explore:
-    name: actions assume example
+  push-stuff:
+    name: actions registry assumption
 
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
     permissions:
