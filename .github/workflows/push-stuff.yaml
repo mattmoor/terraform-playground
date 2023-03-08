@@ -19,6 +19,18 @@ jobs:
       with:
         identity: 79c16302fa2fb9572c80d7de9b2fd3893971e929/92a3be9fa52923dc
 
+    # Delete this whole block.
+    - run: |
+        # Work around a missing registry line
+        chainctl config save \
+           --issuer   https://issuer.enforce.dev \
+           --api      https://console-api.enforce.dev \
+           --audience https://console-api.enforce.dev \
+           --registry https://registry.enforce.dev \
+           --yes
+
+        chainctl auth configure-docker --identity 79c16302fa2fb9572c80d7de9b2fd3893971e929/92a3be9fa52923dc
+
     - uses: sigstore/cosign-installer@main
     - run: |
         chainctl version
