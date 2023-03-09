@@ -21,8 +21,6 @@ jobs:
 
     - uses: sigstore/cosign-installer@main
     - run: |
-        chainctl version
-        cat ~/.docker/config.json
         cosign copy -f \
            cgr.dev/chainguard/static:latest-glibc \
            registry.enforce.dev/79c16302fa2fb9572c80d7de9b2fd3893971e929/static
