@@ -8,7 +8,7 @@ data "chainguard_cluster_discovery" "gotta-catch-em-all" {
     # "EKS",
     # "GKE",
   ]
-  profiles = ["enforcer"]
+  profiles = ["observer", "enforcer"]
 }
 
 resource "chainguard_cluster" "discovery" {
@@ -17,7 +17,7 @@ resource "chainguard_cluster" "discovery" {
   parent_id = local.group_id
   name = "${lower(each.value.provider)} ${each.key}"
 
-  profiles = ["enforcer"]
+  profiles = ["observer", "enforcer"]
   affinity = each.value.location
   managed {
     provider = lower(each.value.provider)

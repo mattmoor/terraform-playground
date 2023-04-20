@@ -60,34 +60,19 @@ module "aws-association-auditlogs" {
 resource "chainguard_account_associations" "example" {
   name  = "tbd"
   group = local.group_id
+
   amazon {
     account = data.aws_caller_identity.current.account_id
   }
+
   google {
     project_id = data.google_project.project.project_id
     project_number = data.google_project.project.number
   }
-}
 
-resource "chainguard_policy" "gke-trusted" {
-  parent_id   = local.group_id
-  description = "Mark the EKS images as trusted."
-  document = jsonencode({
-    apiVersion = "policy.sigstore.dev/v1beta1"
-    kind       = "ClusterImagePolicy"
-    metadata = {
-      name = "eks-trusted"
+  chainguard {
+    service_bindings = {
+      for k, v in local.cgids : k => chainguard_identity.identities[k].id
     }
-    spec = {
-      images = [{
-        glob = "602401143452.dkr.ecr.us-west-2.amazonaws.com/**"
-      }]
-      authorities = [{
-        static = {
-          action = "pass"
-        }
-      }]
-    }
-  })
+  }
 }
-
