@@ -6,7 +6,7 @@ a Bitbucket pipeline to interact with Chainguard resources via terraform.
 - `sample.tf`: A sample group with a policy resource to demonstrate we can view things.
 - `bitbucket.tf`: An identity that Bitbucket can assume to interact with the sample group.
 
-For more information on Bitbucket OIDC see [the docs](https://bitbucket.com/docs/agent/v3/cli-oidc)!
+For more information on Bitbucket OIDC see [the docs](https://support.atlassian.com/bitbucket-cloud/docs/integrate-pipelines-with-resource-servers-using-oidc/)!
 
 ## Letting your Chainguard build fly
 
