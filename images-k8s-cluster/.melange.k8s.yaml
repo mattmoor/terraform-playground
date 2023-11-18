@@ -1,0 +1,48 @@
+provider: gke
+repo: gcr.io/mattmoor-chainguard/wolfi-os-builds
+
+startTimeout: 10m
+resources:
+  cpu: 12
+  memory: 48Gi
+  ephemeral-storage: 9Gi
+
+podTemplate:
+  volumeMounts:
+    - name: scratch
+      mountPath: /tmp
+  volumes:
+    - name: mount-0 # the default volume for /home/build
+      ephemeral:
+        volumeClaimTemplate:
+          metadata:
+            labels:
+              type: build
+          spec:
+            accessModes: [ "ReadWriteOnce" ]
+            storageClassName: "premium-rwo" # Majority of builds are very I/O intensive, so this ends up being a significant boost
+            resources:
+              requests:
+                # The vast majority of builds don't need this, but some do and
+                # it's really annoying to make it all the way through only to
+                # fill up the disk at the end
+                storage: 15Gi
+    - name: scratch
+      ephemeral:
+        volumeClaimTemplate:
+          metadata:
+            labels:
+              type: scratch
+          spec:
+            accessModes: [ "ReadWriteOnce" ]
+            storageClassName: "premium-rwo" # Majority of builds are very I/O intensive, so this ends up being a significant boost
+            resources:
+              requests:
+                # The vast majority of builds don't need this, but some do and
+                # it's really annoying to make it all the way through only to
+                # fill up the disk at the end
+                storage: 15Gi
+  nodeSelector:
+    cloud.google.com/compute-class: "Scale-Out"
+    # Toggle at your own risk!
+    cloud.google.com/gke-spot: "true"
